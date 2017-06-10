@@ -61,11 +61,16 @@ public class Main implements InteractiveItem {
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		
-		fork = new Fork(40,70,len,wid,
-				new Fork(40,70,len,wid,new Fork(), new Fork()),
-				new Fork(40,70,len,wid,
-				new Fork(40,70,len*0.75f,wid*0.75f,new Fork(), new Fork()), 
-				new Fork(40,70,len*0.75f,wid*0.75f,new Fork(), new Fork())));
+//		fork = new Fork(40,70,len,wid, //main fork
+//				new Fork(40,70,len,wid, //left fork with two balls
+//						new Fork(), new Fork()),
+//				new Fork(40,70,len,wid, //right fork with two forks
+//				new Fork(40,70,len*0.75f,wid*0.75f, //left ball fork
+//						new Fork(), new Fork()), 
+//				new Fork(40,70,len*0.75f,wid*0.75f, //right ball fork
+//						new Fork(), new Fork())));
+		
+		fork = new Fork(40, 70, len, wid, new Fork(), new Fork());
 	}
 
 	
@@ -82,7 +87,7 @@ public class Main implements InteractiveItem {
 		GL11.glLoadIdentity();
 		GLU.gluLookAt(cameraPos[0], cameraPos[1], cameraPos[2], 0, 0, 0, 0, 1, 0);
 		
-		//strippgen: render fork (the whole mobile) here ( i.e. fork.render(); )
+		fork.render();
 		
 		Display.update();
 		Display.sync(60);
@@ -90,7 +95,7 @@ public class Main implements InteractiveItem {
 
 	@Override
 	public void finish() {
-		
+		Display.destroy();
 	}
 
 }
