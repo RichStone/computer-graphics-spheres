@@ -9,7 +9,7 @@ import org.lwjgl.util.glu.GLU;
 
 import edu.berlin.htw.ds.cg.helper.GLDrawHelper;
 import edu.berlin.htw.ds.cg.helper.InteractiveItem;
-
+import static org.lwjgl.opengl.GL11.*;
 public class Main implements InteractiveItem {
 
 	
@@ -26,7 +26,9 @@ public class Main implements InteractiveItem {
 	//configure action keys
 	private boolean keyPressed = false;
 	
-	float[] cameraPos = new float[]{0, 0, 1500};
+	//float[] cameraPos = new float[]{0, 0, 1500};
+	
+	Camera cam;
 	
 	Fork fork;
 	
@@ -41,6 +43,7 @@ public class Main implements InteractiveItem {
 			update();
 			render();
 		}
+		finish();
 	}
 
 	@Override
@@ -54,10 +57,11 @@ public class Main implements InteractiveItem {
 			e.printStackTrace();
 			System.exit(0);
 		}
-		GL11.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		GL11.glLoadIdentity();
-		GLU.gluPerspective(75.f, (float)width/height, 2.1f, 6000.f);
+		cam = new Camera(70, (float)Display.getWidth() / (float)Display.getHeight(), 0.3f, 1000);
+//		GL11.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+//		GL11.glMatrixMode(GL11.GL_PROJECTION);
+//		GL11.glLoadIdentity();
+//		GLU.gluPerspective(75.f, (float)width/height, 2.1f, 6000.f);
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		
@@ -85,7 +89,9 @@ public class Main implements InteractiveItem {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
-		GLU.gluLookAt(cameraPos[0], cameraPos[1], cameraPos[2], 0, 0, 0, 0, 1, 0);
+		cam.useView();
+		
+		//GLU.gluLookAt(cameraPos[0], cameraPos[1], cameraPos[2], 0, 0, 0, 0, 1, 0);
 		
 		fork.render();
 		

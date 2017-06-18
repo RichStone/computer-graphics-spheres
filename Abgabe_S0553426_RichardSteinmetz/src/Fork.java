@@ -1,3 +1,15 @@
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glColor3f;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glRotatef;
+import static org.lwjgl.opengl.GL11.glTranslatef;
+import static org.lwjgl.opengl.GL11.glVertex3f;
+import static org.lwjgl.opengl.GL11.*;
+
 import org.lwjgl.opengl.GL11;
 
 import edu.berlin.htw.ds.cg.helper.GLDrawHelper;
@@ -45,13 +57,21 @@ public class Fork implements InteractiveItem {
 //			GL11.glTranslated(100, 100, 100);
 		}
 		else {
-			//--> render leftFork & rightFork
-			GL11.glColor3f(0.2f, 0.9f, 0.1f);
-			GL11.glBegin(GL11.GL_LINES);
-			GL11.glVertex3f(0, 1000, 0);
-			GL11.glVertex3f(500, 100, 0);
-			GL11.glEnd();
+			//render this fork
+			glPushMatrix();
+			{
+				GL11.glColor3f(0.2f, 0.9f, 0.1f);
+				glTranslatef(0,0,-10);
+				glRotatef(0,1,0.2f,0);
+				
+				GL11.glBegin(GL11.GL_LINES);
+				GL11.glVertex3f(1, 1, 1);
+				GL11.glVertex3f(-1, -1, 1);
+				GL11.glEnd();
+			}
+			glPopMatrix();
 			
+			//render adjacent forks
 			leftFork.render();
 			rightFork.render();
 		}
