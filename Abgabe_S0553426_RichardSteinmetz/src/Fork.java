@@ -12,9 +12,6 @@ public class Fork implements InteractiveItem {
 	private InteractiveItem leftFork;
 	private InteractiveItem rightFork;
 	boolean isSphere;
-	private static int sourcePointX = Main.width / 2;
-	private static int sourcePointY = Main.height;
-	private static int sourcePointZ = 0;
 	
 	public Fork(int pitch, int yaw, float len, float wid, Fork fork2, Fork fork3) {
 		isSphere = false;
@@ -48,19 +45,13 @@ public class Fork implements InteractiveItem {
 //			GL11.glTranslated(100, 100, 100);
 		}
 		else {
-			//draw lines
 			//--> render leftFork & rightFork
 			GL11.glColor3f(0.2f, 0.9f, 0.1f);
-//			GL11.glBegin(GL11.GL_LINES);
-//			GL11.glVertex3f(sourcePointX, sourcePointY, sourcePointZ);
-//			GL11.glVertex3f(sourcePointX, sourcePointY - len, sourcePointZ);
-//			GL11.glEnd();
-			
-			GL11.glBegin(GL11.GL_POINTS);
-			GL11.glPointSize(50);
-			GL11.glVertex3f(sourcePointX, sourcePointY, sourcePointZ);
-			GL11.glVertex3f(sourcePointX, sourcePointY - len, sourcePointZ);
+			GL11.glBegin(GL11.GL_LINES);
+			GL11.glVertex3f(0, 1000, 0);
+			GL11.glVertex3f(500, 100, 0);
 			GL11.glEnd();
+			
 			leftFork.render();
 			rightFork.render();
 		}
