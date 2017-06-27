@@ -11,11 +11,9 @@ import edu.berlin.htw.ds.cg.helper.GLDrawHelper;
 import edu.berlin.htw.ds.cg.helper.InteractiveItem;
 import static org.lwjgl.opengl.GL11.*;
 public class Main implements InteractiveItem {
-
-	
 	
 	private int len = 70;
-	private int wid = 30; 
+	private int wid = 60; 
 	
 	//display size
 	static int width = 1200;
@@ -26,7 +24,7 @@ public class Main implements InteractiveItem {
 	//configure action keys
 	private boolean keyPressed = false;
 	
-	//float[] cameraPos = new float[]{0, 0, 1500};
+	float[] cameraPos = new float[]{0, 0, 500};
 	
 	Camera cam;
 	
@@ -65,16 +63,14 @@ public class Main implements InteractiveItem {
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		
-//		fork = new Fork(40,70,len,wid, //main fork
-//				new Fork(40,70,len,wid, //left fork with two balls
-//						new Fork(), new Fork()),
-//				new Fork(40,70,len,wid, //right fork with two forks
-//				new Fork(40,70,len*0.75f,wid*0.75f, //left ball fork
-//						new Fork(), new Fork()), 
-//				new Fork(40,70,len*0.75f,wid*0.75f, //right ball fork
-//						new Fork(), new Fork())));
-		
-		fork = new Fork(40, 70, len, wid, new Fork(), new Fork());
+		fork = new Fork(40,70,len,wid, //main fork
+				new Fork(40,70,len,wid, //left fork with two balls
+						new Fork(), new Fork()),
+				new Fork(40,70,len,wid, //right fork with two forks
+				new Fork(40,70,len*0.75f,wid*0.75f, //left ball fork
+						new Fork(), new Fork()), 
+				new Fork(40,70,len*0.75f,wid*0.75f, //right ball fork
+						new Fork(), new Fork())));		
 	}
 
 	
@@ -89,9 +85,9 @@ public class Main implements InteractiveItem {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
-		cam.useView();
 		
-		//GLU.gluLookAt(cameraPos[0], cameraPos[1], cameraPos[2], 0, 0, 0, 0, 1, 0);
+		cam.useView();
+		GLU.gluLookAt(cameraPos[0], cameraPos[1], cameraPos[2], 0, 0, 0, 0, 1, 0);
 		
 		fork.render();
 		
