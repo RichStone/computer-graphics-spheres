@@ -48,6 +48,10 @@ public class Main implements InteractiveItem
     private FloatBuffer whiteDiffuse = GLDrawHelper.directFloatBuffer(new float[] {.5f, .5f, .5f, 1f});
     private FloatBuffer positionOfLight = GLDrawHelper.directFloatBuffer(new float[] {0f, 100f, 0f, 1f});
 	
+    private int frames = 0;
+    private long startTime;
+    private long endTime;
+    
 	public static void main(String[] args) 
 	{
 		Main app = new Main();
@@ -67,6 +71,7 @@ public class Main implements InteractiveItem
 	@Override
 	public void setup() 
 	{
+		
 		try {
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.setInitialBackground(0.5f, 0.5f, 0.5f);
@@ -83,6 +88,7 @@ public class Main implements InteractiveItem
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		
+		
 		fork = new Fork(40,70,len,wid, //main fork
 				new Fork(40,70,len,wid, //left fork with two balls
 						new Fork(), new Fork()),
@@ -98,6 +104,9 @@ public class Main implements InteractiveItem
         GL11.glEnable(GL11.GL_LIGHT0);
         GL11.glColorMaterial(GL11.GL_FRONT_AND_BACK, GL11.GL_AMBIENT_AND_DIFFUSE) ;
         GL11.glEnable(GL11.GL_COLOR_MATERIAL) ;
+        
+        startTime = getSysTime();
+        System.out.println("start" + startTime);
 	}
 
 	
@@ -126,11 +135,17 @@ public class Main implements InteractiveItem
 		cam.setRotationY(verticalRotation);
 		
 		cam.setRotationX(horizontalRotation);
+		
+		frames++;
+		long currentTime = getSysTime();
+		if((currentTime - startTime) >= 10000)
+			appEnd = true;
 	}
 
 	@Override
 	public void render() 
 	{
+		
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
@@ -148,7 +163,10 @@ public class Main implements InteractiveItem
 	@Override
 	public void finish() 
 	{
+		endTime = getSysTime();
+		System.out.println("end time: " + ((endTime - startTime) / 1000) + " sec. -> " + frames + " frames");
 		Display.destroy();
+		System.exit(0);
 	}
 	
 	public void setTextureList() 
