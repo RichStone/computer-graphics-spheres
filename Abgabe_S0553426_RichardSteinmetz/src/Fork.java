@@ -35,9 +35,10 @@ public class Fork implements InteractiveItem {
 	
 	private Random rnd = new Random();
 	
+	private Integer textureID;
+	
 	public Fork(int pitch, int yaw, float len, float wid, Fork fork2, Fork fork3) 
 	{
-		Random rnd = new Random();
 		isSphere = false;
 		int randomMovementStart = rnd.nextInt(40);
 		this.pitch = randomMovementStart;
@@ -52,26 +53,28 @@ public class Fork implements InteractiveItem {
 	public Fork() 
 	{
 		isSphere = true;
-	}
-
-	@Override
-	public void update() 
-	{
-		//not needed
+		int randomTextureNumber = rnd.nextInt(Main.textureIDs.size());
+		System.out.println(Main.textureIDs.get(randomTextureNumber));
+        textureID = Main.textureIDs.get(randomTextureNumber);
 	}
 
 	@Override
 	public void render() 
 	{
-		actualYaw = getActualYaw();
-		actualPitch = getActualPitch();
 		glPushMatrix(); 
 		{
 			if(isSphere) {
-				glColor3f(0.8f, 0.9f, 0.1f);
+				//enable textures & bind texture with texture id (only for spheres)
+	            GL11.glEnable(GL11.GL_TEXTURE_2D);
+	            GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
 				GLDrawHelper.drawSphere(18, 10, 10);
+	            //clear texture
+	            GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+	            GL11.glDisable(GL11.GL_TEXTURE_2D);
 			}
-			else {			
+			else {
+				actualYaw = getActualYaw();
+				actualPitch = getActualPitch();
 				GL11.glColor3f(0.9f, 0.9f, 0.9f);
 				GL11.glLineWidth(8f);
 				//vertical line
@@ -133,19 +136,24 @@ public class Fork implements InteractiveItem {
 		else if(pitchDirection.equals("INVERSE")) {
 			actualPitch -= movement;
 		}
-		
 		return actualPitch;
-	}
-
-	@Override
-	public void finish() 
-	{
-		Display.destroy();
 	}
 
 	@Override
 	public void setup() 
 	{
 		// TODO not needed
+	}
+	
+	@Override
+	public void update() 
+	{
+		//not needed
+	}
+
+	@Override
+	public void finish() 
+	{
+		Display.destroy();
 	}
 }

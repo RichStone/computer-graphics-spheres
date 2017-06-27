@@ -96,4 +96,14 @@ public class Camera {
 	public void setRotationZ(float rotationZ) {
 		this.rotationZ = rotationZ;
 	}
+	
+	public void moveBackForth(float movementSpeed)
+	{
+		zPosition += movementSpeed;
+	}
+	
+	public void moveLeftRight(float movementSpeed)
+	{
+		xPosition += movementSpeed;
+	}
 }
